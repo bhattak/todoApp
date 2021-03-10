@@ -5,6 +5,7 @@ function AddTodo() {
   const [search, setSearch] = useState("");
   const [todos, setTodos] = useState([]);
   const [newTodos, setNewTodos] = useState([]);
+  const [check, setCheck] = useState(false);
 
   useEffect(() => {
     getToLocalStorage();
@@ -45,18 +46,19 @@ function AddTodo() {
   };
 
   const searchHash = (searchItem) => {
-    if (searchItem != "") {
-      const newData = todos.filter((td) => td.todo.toLowerCase().includes(searchItem.toLowerCase()));
+    if (searchItem !== "") {
+      const newData = todos.filter((td) =>
+        td.todo.toLowerCase().includes(searchItem.toLowerCase())
+      );
       setNewTodos(newData);
-      console.log(newData);
     }
-    console.log(newTodos);
+    setCheck(true);
   };
 
   const clearTodos = (e) => {
     e.preventDefault();
     //localStorage.clear();
-    setTodos([]) ;
+    setTodos([]);
   };
 
   return (
@@ -77,14 +79,17 @@ function AddTodo() {
         onChange={(e) => setSearch(e.target.value)}
       />
       <button onClick={() => searchHash(search)}>Search</button>
-      {todos &&
-        todos.map((td) => (
-          <h2 key={td.id}>
-            {td.todo}
-            {/* <button onClick={()=>delItem(td.id)}>Delete</button> */}
-            <button onClick={() => moveToBottom(td.id)}>Move to bottom</button>
-          </h2>
-        ))}
+      {check == true
+        ? newTodos && newTodos.map((td) => <h2 key={td.id}>{td.todo}</h2>)
+        : todos &&
+          todos.map((td) => (
+            <h2 key={td.id}>
+              {td.todo}
+              <button onClick={() => moveToBottom(td.id)}>
+                Move to bottom
+              </button>
+            </h2>
+          ))}
     </div>
   );
 }
