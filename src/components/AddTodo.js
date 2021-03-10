@@ -1,13 +1,19 @@
-import React, { useState } from "react";
-import DisplayTodo from "./DisplayTodo";
+import React, { useEffect, useState } from "react";
 
 function AddTodo() {
   const [text, setText] = useState("");
-  const [todos, setTodos] = useState([
-    { id: 1, todo: "Get Up" },
-    { id: 2, todo: "Have some Coffee" },
-    { id: 3, todo: "Code" },
-  ]);
+  const [search, setSearch] = useState("");
+  const [todos, setTodos] = useState([]);
+  const [newTodos, setNewTodos] = useState([]);
+
+  useEffect(() => {
+    getToLocalStorage();
+  }, []);
+
+  useEffect(() => {
+    saveToLocalStorage();
+  }, [todos]);
+
   const AddTodo = (event) => {
     event.preventDefault();
     if (text.length != "") {
@@ -20,39 +26,39 @@ function AddTodo() {
     setText("");
   };
 
-  /*
-  const delItem = (id) => {
-    //console.log(id);
-    setTodos(
-      todos.filter((k) => {
-        return k.id !== id;
-      })
-      
-    );
-
+  const saveToLocalStorage = () => {
+    localStorage.setItem("todos", JSON.stringify(todos));
   };
-  */
-  //console.log(todos);
-  const moveToBottom = (id) => {
-    //console.log("ID  :",idd);
-    //console.log(todos);
+  const getToLocalStorage = () => {
+    let todoLocal = JSON.parse(localStorage.getItem("todos"));
+    todoLocal && setTodos(todoLocal);
+  };
 
+  const moveToBottom = (id) => {
     todos.forEach((element, i) => {
-      //console.log("Inside funtion !!!!");
       if (element.id == id) {
         const item = todos[i];
         todos.splice(i, 1);
         setTodos([...todos, item]);
       }
     });
-
-    //console.log(todos);
   };
+
+  const searchHash = (searchItem) => {
+    if (searchItem != "") {
+      const newData = todos.filter((td) => td.todo.toLowerCase().includes(searchItem.toLowerCase()));
+      setNewTodos(newData);
+      console.log(newData);
+    }
+    console.log(newTodos);
+  };
+
   const clearTodos = (e) => {
     e.preventDefault();
-    setTodos([]);
+    //localStorage.clear();
+    setTodos([]) ;
   };
-  //let data = Array.from(todos);
+
   return (
     <div>
       <form onSubmit={AddTodo}>
@@ -65,10 +71,16 @@ function AddTodo() {
         {/* <DisplayTodo todos={todos} delItem={delItem} /> */}
       </form>
       <button onClick={clearTodos}>Clear All</button>
+      <input
+        type="text"
+        value={search}
+        onChange={(e) => setSearch(e.target.value)}
+      />
+      <button onClick={() => searchHash(search)}>Search</button>
       {todos &&
         todos.map((td) => (
-          <h2>
-            {td.id} {td.todo}
+          <h2 key={td.id}>
+            {td.todo}
             {/* <button onClick={()=>delItem(td.id)}>Delete</button> */}
             <button onClick={() => moveToBottom(td.id)}>Move to bottom</button>
           </h2>
