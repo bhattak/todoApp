@@ -19,8 +19,8 @@ function AddTodo() {
     }
     setText("");
   };
-  
-/*
+
+  /*
   const delItem = (id) => {
     //console.log(id);
     setTodos(
@@ -32,20 +32,27 @@ function AddTodo() {
 
   };
   */
-  const moveToBottom=(id)=>{
+  //console.log(todos);
+  const moveToBottom = (id) => {
     //console.log("ID  :",idd);
-           setTodos(
-                todos.forEach((element,i)=>{
-                console.log("Inside funtion !!!!")
-                if(element.id == id)
-                   todos.push(todos[i])
-                   todos.splice(i,1);
-                }
-            )   
-           ) 
-  }
+    //console.log(todos);
 
-  let data = Array.from(todos);
+    todos.forEach((element, i) => {
+      //console.log("Inside funtion !!!!");
+      if (element.id == id) {
+        const item = todos[i];
+        todos.splice(i, 1);
+        setTodos([...todos, item]);
+      }
+    });
+
+    //console.log(todos);
+  };
+  const clearTodos = (e) => {
+    e.preventDefault();
+    setTodos([]);
+  };
+  //let data = Array.from(todos);
   return (
     <div>
       <form onSubmit={AddTodo}>
@@ -57,15 +64,15 @@ function AddTodo() {
         <button type="submit">Add</button>
         {/* <DisplayTodo todos={todos} delItem={delItem} /> */}
       </form>
-      {
-                data.map((td)=>(
-                    <h2 >
-                        {td.id} {td.todo}
-                        {/* <button onClick={()=>delItem(td.id)}>Delete</button> */}
-                        <button onClick={()=>moveToBottom(td.id)}>Move to bottom</button>
-                    </h2>
-                ))
-            }
+      <button onClick={clearTodos}>Clear All</button>
+      {todos &&
+        todos.map((td) => (
+          <h2>
+            {td.id} {td.todo}
+            {/* <button onClick={()=>delItem(td.id)}>Delete</button> */}
+            <button onClick={() => moveToBottom(td.id)}>Move to bottom</button>
+          </h2>
+        ))}
     </div>
   );
 }

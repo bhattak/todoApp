@@ -1,0 +1,22 @@
+{
+	"folders": [
+		{
+			"path": "..\\..\\..\\py\\native"
+		},
+		{
+			"path": "..\\..\\.."
+		},
+		{
+			"path": "..\\..\\..\\..\\py"
+		},
+		{
+			"path": "H:\\React"
+		}
+	],
+	"settings": {
+		"files.associations": {
+			"unordered_map": "cpp",
+			"string": "cpp"
+		}
+	}
+}
