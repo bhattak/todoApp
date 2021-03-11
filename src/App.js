@@ -1,9 +1,9 @@
 import AddTodo from "./components/AddTodo";
+import './App.css'
 
 function App() {
   return (
-    <div className="App">
-      <h2>*** The TODO App ***</h2>
+    <div className="app">
       <AddTodo/>
     </div>
   );

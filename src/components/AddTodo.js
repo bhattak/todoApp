@@ -1,10 +1,14 @@
 import React, { useEffect, useState } from "react";
+import DisplayTodo from "./DisplayTodo";
+import '../styles/addTodo.css'
+
 
 function AddTodo() {
   const [text, setText] = useState("");
   const [search, setSearch] = useState("");
   const [todos, setTodos] = useState([]);
   const [newTodos, setNewTodos] = useState([]);
+  const [completedTodos, setCompletedTodos] = useState([]);
   const [check, setCheck] = useState(false);
 
   useEffect(() => {
@@ -14,6 +18,12 @@ function AddTodo() {
   useEffect(() => {
     saveToLocalStorage();
   }, [todos]);
+
+  useEffect(() => {
+    if (!search) {
+      setCheck(false);
+    }
+  }, [search]);
 
   const AddTodo = (event) => {
     event.preventDefault();
@@ -45,6 +55,21 @@ function AddTodo() {
     });
   };
 
+  // const moveToBottom = (id) => {
+  //   todos.forEach((element, i) => {
+  //     if (element.id == id) {
+  //       const item = todos[i];
+  //       todos.splice(i, 1);
+  //       setCompletedTodos([...completedTodos, item]);
+  //     }
+  //   });
+  // };
+
+  const handleKeyPress = (event ) => {
+    if(event.code === 'Enter')
+      searchHash(event.target.value)
+  }
+  
   const searchHash = (searchItem) => {
     if (searchItem !== "") {
       const newData = todos.filter((td) =>
@@ -57,39 +82,45 @@ function AddTodo() {
 
   const clearTodos = (e) => {
     e.preventDefault();
-    //localStorage.clear();
+    localStorage.clear();
     setTodos([]);
   };
 
   return (
-    <div>
-      <form onSubmit={AddTodo}>
-        <input
-          type="text"
-          value={text}
-          onChange={(e) => setText(e.target.value)}
-        />
-        <button type="submit">Add</button>
-        {/* <DisplayTodo todos={todos} delItem={delItem} /> */}
-      </form>
-      <button onClick={clearTodos}>Clear All</button>
-      <input
-        type="text"
-        value={search}
-        onChange={(e) => setSearch(e.target.value)}
+    <div >
+      <div className="addtodo">
+        <form onSubmit={AddTodo} className="form">
+            <input
+              className="form_input"
+              type="text"
+              placeholder="add your todos here ...."
+              value={text}
+              onChange={(e) => setText(e.target.value)}
+            />
+            <button type="submit"  variant="outlined" className="form_button">Add</button>
+        </form>
+        <div className="search_input">
+            <input
+              type="text"
+              className="search"
+              placeholder="search todos"
+              value={search}
+              onChange={(e) => setSearch(e.target.value)}
+              onKeyPress={handleKeyPress}
+            />
+            <button className="form_button" onClick={() => searchHash(search)} disabled={!search}>Search</button>
+        </div>
+        <button className="clear_button" onClick={(e)=>clearTodos(e)} >Clear</button>
+      </div>
+      
+     <DisplayTodo
+        todos={todos}
+        newTodos={newTodos}
+        check={check}
+        moveToBottom={moveToBottom}
+        completedTodos={completedTodos}
       />
-      <button onClick={() => searchHash(search)}>Search</button>
-      {check == true
-        ? newTodos && newTodos.map((td) => <h2 key={td.id}>{td.todo}</h2>)
-        : todos &&
-          todos.map((td) => (
-            <h2 key={td.id}>
-              {td.todo}
-              <button onClick={() => moveToBottom(td.id)}>
-                Move to bottom
-              </button>
-            </h2>
-          ))}
+      
     </div>
   );
 }

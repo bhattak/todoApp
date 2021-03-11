@@ -1,0 +1,81 @@
+.addtodo{
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: start;
+    background-color: rgb(85, 93, 102);
+    position: sticky;
+    top:0;
+    z-index: 10;
+    overflow: hidden; 
+}
+.form{
+    display: flex;
+    height: 50px;
+    place-content: center;
+    color: aliceblue;
+    position: sticky;
+    top:0;
+    z-index: 10;
+    overflow: hidden; 
+    margin-left: 20px;
+}
+.form_input{
+    margin-top: 10px;
+    margin-left: 25px;
+    height: 12px;
+    padding:10px;
+    border:none;
+    width: 500px;
+    border-radius: 5px;
+    font-size: 18px;
+    outline-width: 2;
+}
+.search{
+    margin-top: 10px;
+    margin-left: 300px;
+    height: 12px;
+    padding:10px;
+    border:none;
+    width: 30%;
+    border-radius: 5px;
+    font-size: 18px;
+    /* outline-width: 2; */
+}
+.search_item{
+    display: flex;
+    flex-direction: row;
+}
+.clear_button{
+    margin-top: 9px;
+    margin-left: 100px;
+    height: 36px;
+    width: 80px;
+    color: blanchedalmond;
+    border-radius: 5px;
+    font-size: 18px;
+    outline-width: 2;
+    color: black;
+}
+.form_button{
+    margin-top: 9px;
+    margin-left:5px;
+    height: 36px;
+    width: 80px;
+    color: blanchedalmond;
+    border-radius: 5px;
+    font-size: 18px;
+    outline-width: 2;
+    color: black;
+}
+.form_button:hover{
+    cursor: pointer;
+    background-color: blanchedalmond;
+}
+.clear_button:hover{
+    cursor: pointer;
+    background-color: rgb(151, 29, 29);
+    color: white;
+}
+
+
