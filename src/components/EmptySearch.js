@@ -5,8 +5,7 @@ const divStyle = {
   fontWeight: 500,
   color: "red",
 };
-
-function Empty({ info }) {
+function EmptySearch({ info }) {
   return (
     <div>
       <h2 style={divStyle}>{info}</h2>
@@ -14,4 +13,4 @@ function Empty({ info }) {
   );
 }
 
-export default Empty;
+export default EmptySearch;
